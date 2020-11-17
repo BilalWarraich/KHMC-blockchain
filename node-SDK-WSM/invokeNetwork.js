@@ -27,7 +27,7 @@ module.exports = {
       var fabric_client = new Fabric_Client();
 
       // setup the fabric network
-      var channel = fabric_client.newChannel('mychannel');
+      var channel = fabric_client.newChannel('khmcchannel');
       var peer = fabric_client.newPeer('grpcs://localhost:8051' , { pem: Buffer.from(peerCert).toString() });
       channel.addPeer(peer);
       var order = fabric_client.newOrderer('grpcs://localhost:7050' , { pem: Buffer.from(ordererCert).toString() })

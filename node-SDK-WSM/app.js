@@ -11,6 +11,7 @@ const path = require('path');
 const app = express();
 const invoke = require('./invokeNetwork');
 const query = require('./queryNetwork');
+const queryTransaction = require('./query');
 var _time = "T00:00:00Z";
 
 //declare port
@@ -520,3 +521,19 @@ app.get('/api/queryReceiveItem', async function (req, res) {
   }
 });
 
+app.get('/api/queryByTrasanction', async function (req, res) {
+
+  const request = req.query.txId;
+  let response = await queryTransaction.invokeQuery(request)
+  if (response) {
+    if(response.status == 200){
+
+     let data = JSON.parse(response.message);
+     // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa"+data.transactionEnvelope);
+
+    res.status(response.status).send({ message: data});
+    }
+    else
+    res.status(response.status).send({ message: response.message });
+  }
+});

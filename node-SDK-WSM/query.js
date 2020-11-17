@@ -20,6 +20,7 @@ var clientConfig = path.join(__dirname, './config/client-profile.json');
 let peerCert = fs.readFileSync('../fabric/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem');
 let ordererCert = fs.readFileSync('../fabric/test-network/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem');
 
+
 module.exports = {
 
   invokeQuery: async function (request) {
@@ -61,25 +62,23 @@ module.exports = {
       } else {
         throw new Error('Failed to get user1.... run registerUserNetwork.js');
       }
+      let useAdmin = false;
+      let skipDecode = false ;
 
       // send the query proposal to the peer
-      let query_responses = await channel.queryByChaincode(request);
-
+      let query_responses = await channel.queryTransaction(request,peer,useAdmin,skipDecode);
       // query_responses could have more than one  results if there multiple peers were used as targets
-      if (query_responses && query_responses.length == 1) {
+      if (query_responses != null ) {
         if (query_responses[0] instanceof Error) {
           console.error("error from query = ", query_responses[0]);
-          Response = query_responses[0].toString();
+          Response = JSON.stringify(query_responses);
           return {
             status: 500,
             message: Response
           }
         } else {
-          console.log("Response is ", query_responses[0].toString());
-          Response = query_responses[0].toString();
-
-         
-        
+          console.log("Response is ",JSON.stringify(query_responses));
+          Response = JSON.stringify(query_responses);
           return {
             status: 200,
             message: Response

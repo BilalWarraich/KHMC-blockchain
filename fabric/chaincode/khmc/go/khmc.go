@@ -734,7 +734,7 @@ func (t *SmartContract) addPatient(stub shim.ChaincodeStubInterface, args []stri
 
 	var err error
 
-	if len(args) != 8 {
+	if len(args) != 4 {
 		return shim.Error("Incorrect Number of Aruments. Expecting 8")
 	}
 
