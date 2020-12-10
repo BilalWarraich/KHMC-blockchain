@@ -9,7 +9,7 @@ volumes:
 networks:
   mynetwork.com:
     external:
-      name: net_byfn
+      name: net_test
 
 services:
 

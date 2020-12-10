@@ -47,10 +47,10 @@ Organizations:
     - &Org1
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: KhmcMSP
 
         # ID to load the MSP definition as
-        ID: Org1MSP
+        ID: KhmcMSP
 
         MSPDir: ../organizations/peerOrganizations/org1.example.com/msp
 
@@ -60,16 +60,16 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+                Rule: "OR('KhmcMSP.admin', 'KhmcMSP.peer', 'KhmcMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+                Rule: "OR('KhmcMSP.admin', 'KhmcMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin')"
+                Rule: "OR('KhmcMSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org1MSP.peer')"
+                Rule: "OR('KhmcMSP.peer')"
 
         # leave this flag set to true.
         AnchorPeers:

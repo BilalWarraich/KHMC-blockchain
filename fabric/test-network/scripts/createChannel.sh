@@ -33,7 +33,7 @@ createChannelTx() {
 
 createAncorPeerTx() {
 
-	for orgmsp in Org1MSP; do
+	for orgmsp in KhmcMSP; do
 
 	echo "#######    Generating anchor peer update transaction for ${orgmsp}  ##########"
 	set -x

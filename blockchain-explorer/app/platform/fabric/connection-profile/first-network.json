@@ -14,7 +14,7 @@
 			"affiliation": "org1.department1"
 		},
 		"enableAuthentication": true,
-		"organization": "Org1MSP",
+		"organization": "KhmcMSP",
 		"connection": {
 			"timeout": {
 				"peer": {
@@ -25,7 +25,7 @@
 		}
 	},
 	"channels": {
-		"mychannel": {
+		"khmcchannel": {
 			"peers": {
 				"peer0.org1.example.com": {}
 			},
@@ -41,21 +41,21 @@
 		}
 	},
 	"organizations": {
-		"Org1MSP": {
-			"mspid": "Org1MSP",
+		"KhmcMSP": {
+			"mspid": "KhmcMSP",
 			"adminPrivateKey": {
-				"path": "/home/bilal/S-J/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/60329f013ca77b97e3c069f8bf20ce9b1f906d5d43e9c0046bedbcd42124f0d0_sk"
+				"path": "/root/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/6e73ce28c79abd5e835e10d0c5e0bb244865a8610a2cb736832ac9a43f51736e_sk"
 			},
 			"peers": ["peer0.org1.example.com"],
 			"signedCert": {
-				"path": "/home/bilal/S-J/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+				"path": "/root/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
 			}
 		}
 	},
 	"peers": {
 		"peer0.org1.example.com": {
 			"tlsCACerts": {
-				"path": "/home/bilal/S-J/fabric/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+				"path": "/root/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
 			},
 			"url": "grpcs://localhost:7051",
 			"grpcOptions": {
@@ -70,7 +70,7 @@
 				"verify": false
 			},
 			"tlsCACerts": {
-				"path": "/home/bilal/S-J/fabric/test-network/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+				"path": "/root/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
 			},
 			"caName": "ca-org1"
 		}

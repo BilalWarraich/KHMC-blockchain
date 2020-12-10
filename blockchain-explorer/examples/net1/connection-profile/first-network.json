@@ -1,14 +1,20 @@
 {
-	"name": "first-network",
+	"name": "first network (ignored)",
 	"version": "1.0.0",
+	"license": "Apache-2.0",
 	"client": {
 		"tlsEnable": true,
+		"caCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
 		"adminCredential": {
 			"id": "exploreradmin",
-			"password": "exploreradminpw"
+			"password": "exploreradminpw",
+			"affiliation": "org1.department1"
 		},
 		"enableAuthentication": true,
-		"organization": "Org1MSP",
+		"organization": "KhmcMSP",
 		"connection": {
 			"timeout": {
 				"peer": {
@@ -19,7 +25,7 @@
 		}
 	},
 	"channels": {
-		"mychannel": {
+		"khmcchannel": {
 			"peers": {
 				"peer0.org1.example.com": {}
 			},
@@ -35,14 +41,14 @@
 		}
 	},
 	"organizations": {
-		"Org1MSP": {
-			"mspid": "Org1MSP",
+		"KhmcMSP": {
+			"mspid": "KhmcMSP",
 			"adminPrivateKey": {
-				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/8fed138a6db06f3933ac769d45c9984fe01dddcfa0d4c2631edeb5a26e268621_sk"
 			},
 			"peers": ["peer0.org1.example.com"],
 			"signedCert": {
-				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem"
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
 			}
 		}
 	},
@@ -51,7 +57,22 @@
 			"tlsCACerts": {
 				"path": "/tmp/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
 			},
-			"url": "grpcs://peer0.org1.example.com:7051"
+			"url": "grpcs://localhost:7051",
+			"grpcOptions": {
+				"ssl-target-name-override": "peer0.org1.example.com"
+			}
+		}
+	},
+	"certificateAuthorities": {
+		"ca-org1": {
+			"url": "https://localhost:7054",
+			"httpOptions": {
+				"verify": false
+			},
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+			},
+			"caName": "ca-org1"
 		}
 	}
 }

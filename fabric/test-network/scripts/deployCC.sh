@@ -352,7 +352,7 @@ approveForMyOrg 1
 
 ## check whether the chaincode definition is ready to be committed
 ## expect org1 to have approved and org2 not to
-checkCommitReadiness 1 "\"Org1MSP\": true"  
+checkCommitReadiness 1 "\"KhmcMSP\": true"  
 
 
 ## now that we know for sure both orgs have approved, commit the definition
