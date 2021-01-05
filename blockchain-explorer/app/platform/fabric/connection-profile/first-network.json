@@ -44,7 +44,7 @@
 		"KhmcMSP": {
 			"mspid": "KhmcMSP",
 			"adminPrivateKey": {
-				"path": "/home/ubuntu/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/6e73ce28c79abd5e835e10d0c5e0bb244865a8610a2cb736832ac9a43f51736e_sk"
+				"path": "/home/ubuntu/KHMC-blockchain/fabric/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/a507826298e653064f8704f6aa5a64fb7615f99d31f697127134ee7264eb0930_sk"
 			},
 			"peers": ["peer0.org1.example.com"],
 			"signedCert": {

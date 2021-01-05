@@ -54,7 +54,7 @@ module.exports = {
         fabric_client.setCryptoSuite(crypto_suite);
 
         // get the enrolled user from persistence, this user will sign all requests
-        return fabric_client.getUserContext('wsm', true);
+        return fabric_client.getUserContext('wsm1', true);
       });
 
       if (user_from_store && user_from_store.isEnrolled()) {

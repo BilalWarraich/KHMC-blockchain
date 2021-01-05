@@ -1,3 +1,4 @@
+
 'use strict';
 /*
 * Copyright IBM Corp All Rights Reserved
@@ -53,17 +54,17 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 
     // at this point we should have the admin user
     // first need to register the user with the CA server
-    return fabric_ca_client.register({enrollmentID: 'wsm', affiliation: 'org1.department1',role: 'client'}, admin_user);
+    return fabric_ca_client.register({enrollmentID: 'wsm1', affiliation: 'org1.department1',role: 'client'}, admin_user);
 }).then((secret) => {
     // next we need to enroll the user with CA server
-    console.log('Successfully registered wsm - secret:'+ secret);
+    console.log('Successfully registered wsm1 - secret:'+ secret);
 
-    return fabric_ca_client.enroll({enrollmentID: 'wsm', enrollmentSecret: secret});
+    return fabric_ca_client.enroll({enrollmentID: 'wsm1', enrollmentSecret: secret});
 }).then((enrollment) => {
-  console.log('Successfully enrolled member user "wsm" ');
+  console.log('Successfully enrolled member user "wsm1" ');
   return fabric_client.createUser(
-     {username: 'wsm',
-     mspid: 'Org1MSP',
+     {username: 'wsm1',
+     mspid: 'KhmcMSP',
      cryptoContent: { privateKeyPEM: enrollment.key.toBytes(), signedCertPEM: enrollment.certificate }
      });
 }).then((user) => {
@@ -71,7 +72,7 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 
      return fabric_client.setUserContext(member_user);
 }).then(()=>{
-     console.log('Wsm was successfully registered and enrolled and is ready to interact with the fabric network');
+     console.log('Wsm1 was successfully registered and enrolled and is ready to interact with the fabric network');
 
 }).catch((err) => {
     console.error('Failed to register: ' + err);
