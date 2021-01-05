@@ -61,6 +61,7 @@ app.post('/api/addPurchaseOrder', async function (req, res) {
       req.body.vendorId,
       req.body.status,
       req.body.committeeStatus,
+      req.body.inProgressTime,
       req.body.createdAt,
       req.body.sentAt,
       req.body.updatedAt
@@ -109,6 +110,7 @@ app.post('/api/addPurchaseRequest', async function (req, res) {
       req.body.orderType,
       req.body.generated,
       req.body.approvedBy,
+      req.body.inProgressTime,
       req.body.createdAt,
       req.body.updatedAt
 
@@ -207,6 +209,12 @@ app.post('/api/addReplenishmentRequest', async function (req, res) {
       req.body.description,
       req.body.rstatus,
       req.body.rsecondStatus,
+      req.body.batchNumber,
+      req.body.expiryDate,
+      req.body.quantity,
+      req.body.tempbatchNumber,
+      req.body.tempexpiryDate,
+      req.body.tempquantity,
       req.body.status,
       req.body.secondStatus,
       req.body.rrB,
@@ -215,6 +223,8 @@ app.post('/api/addReplenishmentRequest', async function (req, res) {
       req.body.orderType,
       req.body.department,
       req.body.commentNote,
+      req.body.inProgressTime,
+      req.body.completedTime,
       req.body.createdAt,
       req.body.updatedAt
 
@@ -281,9 +291,11 @@ app.post('/api/addWarehouseInventory', async function (req, res) {
       req.body.batchNumber,
       req.body.expiryDate,
       req.body.quantity,
+      req.body.price,
       req.body.tempbatchNumber,
       req.body.tempexpiryDate,
-      req.body.tempquantity
+      req.body.tempquantity,
+      req.body.tempprice
 
     ]
   };
@@ -330,9 +342,13 @@ app.post('/api/addReceiveItem', async function (req, res) {
       req.body.notes,
       req.body.createdAt,
       req.body.updatedAt,
+      req.body.returnedQty,
       req.body.batchNumberArr,
       req.body.expiryDateArr,
-      req.body.quantity
+      req.body.quantity,
+      req.body.price,
+      req.body.qrCode,
+      req.body.unitPrice
 
     ]
   };
