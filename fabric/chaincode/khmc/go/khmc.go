@@ -44,21 +44,21 @@ type Item struct {
 	Name         string `json:"name"`
 	Description  string `json:"description"`
 	ItemCode     string `json:"itemCode"`
-	Istatus      string `json:"istatus"`
+	IStatus      string `json:"istatus"`
 	SecondStatus string `json:"secondStatus"`
 }
 
 type RItem struct {
-	ObjectType   string `json:"Type"`
-	ItemId       string `json:"itemId"`
-	CurrentQty   string `json:"currentQty"`
-	RequestedQty string `json:"requestedQty"`
-	RecieptUnit  string `json:"recieptUnit"`
-	IssueUnit    string `json:"issueUnit"`
-	FuItemCost   string `json:"fuItemCost"`
-	Description  string `json:"description"`
-	Status       string `json:"status"`
-	SecondStatus string `json:"secondStatus"`
+	ObjectType    string `json:"Type"`
+	ItemId        string `json:"itemId"`
+	CurrentQty    string `json:"currentQty"`
+	RequestedQty  string `json:"requestedQty"`
+	RecieptUnit   string `json:"recieptUnit"`
+	IssueUnit     string `json:"issueUnit"`
+	FuItemCost    string `json:"fuItemCost"`
+	Description   string `json:"description"`
+	RStatus       string `json:"rstatus"`
+	RSecondStatus string `json:"rsecondStatus"`
 	BatchArray
 	TempBatchArray
 }
@@ -291,6 +291,43 @@ func (t *SmartContract) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	if function == "updateWarehouseInventory" {
 		return t.updateWarehouseInventory(stub, args)
 	}
+	if function == "updatePurchaseOrderStatus" {
+		return t.updatePurchaseOrderStatus(stub, args)
+	}
+	if function == "updatePurchaseOrderCommitteeStatus" {
+		return t.updatePurchaseOrderCommitteeStatus(stub, args)
+	}
+	if function == "updatePurchaseRequestStatus" {
+		return t.updatePurchaseRequestStatus(stub, args)
+	}
+	if function == "updatePurchaseRequestCommitteeStatus" {
+		return t.updatePurchaseRequestCommitteeStatus(stub, args)
+	}
+	if function == "updatePurchaseRequestItemStatus" {
+		return t.updatePurchaseRequestItemStatus(stub, args)
+	}
+	if function == "updatePurchaseRequestItemSecondStatus" {
+		return t.updatePurchaseRequestItemSecondStatus(stub, args)
+	}
+	if function == "updateReplenishmentRequestStatus" {
+		return t.updateReplenishmentRequestStatus(stub, args)
+	}
+	if function == "updateReplenishmentRequestSecondStatus" {
+		return t.updateReplenishmentRequestSecondStatus(stub, args)
+	}
+	if function == "updateReplenishmentRequestItemStatus" {
+		return t.updateReplenishmentRequestItemStatus(stub, args)
+	}
+	if function == "updateReplenishmentRequestItemSecondStatus" {
+		return t.updateReplenishmentRequestItemSecondStatus(stub, args)
+	}
+	if function == "updateFunctionalUnitStatus" {
+		return t.updateFunctionalUnitStatus(stub, args)
+	}
+	if function == "updateReceiveItemStatus" {
+		return t.updateReceiveItemStatus(stub, args)
+	}
+
 	fmt.Println("Invoke did not find specified function " + function)
 	return shim.Error("Invoke did not find specified function " + function)
 }
@@ -1502,6 +1539,414 @@ func (t *SmartContract) updateWarehouseInventory(stub shim.ChaincodeStubInterfac
 
 	responseJSONasBytes, _ := json.Marshal(responseToUpdate)
 	err = stub.PutState(itemId, responseJSONasBytes) //rewrite
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseOrderStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	purchaseOrderNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", purchaseOrderNo, newStatus)
+
+	PurchaseOrderAsBytes, err := stub.GetState(purchaseOrderNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseOrderAsBytes == nil {
+		return shim.Error("PurchaseOrder does not exist")
+	}
+
+	PurchaseOrderToUpdate := PurchaseOrder{}
+	err = json.Unmarshal(PurchaseOrderAsBytes, &PurchaseOrderToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseOrderToUpdate.Status = newStatus //change the status
+
+	PurchaseOrderJSONasBytes, _ := json.Marshal(PurchaseOrderToUpdate)
+	err = stub.PutState(purchaseOrderNo, PurchaseOrderJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseOrderCommitteeStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	purchaseOrderNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", purchaseOrderNo, newStatus)
+
+	PurchaseOrderAsBytes, err := stub.GetState(purchaseOrderNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseOrderAsBytes == nil {
+		return shim.Error("PurchaseOrder does not exist")
+	}
+
+	PurchaseOrderToUpdate := PurchaseOrder{}
+	err = json.Unmarshal(PurchaseOrderAsBytes, &PurchaseOrderToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseOrderToUpdate.CommitteeStatus = newStatus //change the status
+
+	PurchaseOrderJSONasBytes, _ := json.Marshal(PurchaseOrderToUpdate)
+	err = stub.PutState(purchaseOrderNo, PurchaseOrderJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseRequestStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	PurchaseRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseRequestAsBytes == nil {
+		return shim.Error("PurchaseRequest does not exist")
+	}
+
+	PurchaseRequestToUpdate := PurchaseRequest{}
+	err = json.Unmarshal(PurchaseRequestAsBytes, &PurchaseRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseRequestToUpdate.Status = newStatus //change the status
+
+	PurchaseRequestJSONasBytes, _ := json.Marshal(PurchaseRequestToUpdate)
+	err = stub.PutState(requestNo, PurchaseRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseRequestCommitteeStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	PurchaseRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseRequestAsBytes == nil {
+		return shim.Error("PurchaseRequest does not exist")
+	}
+
+	PurchaseRequestToUpdate := PurchaseRequest{}
+	err = json.Unmarshal(PurchaseRequestAsBytes, &PurchaseRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseRequestToUpdate.CommitteeStatus = newStatus //change the status
+
+	PurchaseRequestJSONasBytes, _ := json.Marshal(PurchaseRequestToUpdate)
+	err = stub.PutState(requestNo, PurchaseRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseRequestItemStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	PurchaseRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseRequestAsBytes == nil {
+		return shim.Error("PurchaseRequest does not exist")
+	}
+
+	PurchaseRequestToUpdate := PurchaseRequest{}
+	err = json.Unmarshal(PurchaseRequestAsBytes, &PurchaseRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseRequestToUpdate.Item.IStatus = newStatus //change the status
+
+	PurchaseRequestJSONasBytes, _ := json.Marshal(PurchaseRequestToUpdate)
+	err = stub.PutState(requestNo, PurchaseRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updatePurchaseRequestItemSecondStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	PurchaseRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if PurchaseRequestAsBytes == nil {
+		return shim.Error("PurchaseRequest does not exist")
+	}
+
+	PurchaseRequestToUpdate := PurchaseRequest{}
+	err = json.Unmarshal(PurchaseRequestAsBytes, &PurchaseRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	PurchaseRequestToUpdate.Item.SecondStatus = newStatus //change the status
+
+	PurchaseRequestJSONasBytes, _ := json.Marshal(PurchaseRequestToUpdate)
+	err = stub.PutState(requestNo, PurchaseRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateReplenishmentRequestStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	ReplenishmentRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if ReplenishmentRequestAsBytes == nil {
+		return shim.Error("ReplenishmentRequest does not exist")
+	}
+
+	ReplenishmentRequestToUpdate := ReplenishmentRequest{}
+	err = json.Unmarshal(ReplenishmentRequestAsBytes, &ReplenishmentRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	ReplenishmentRequestToUpdate.Status = newStatus //change the status
+
+	ReplenishmentRequestJSONasBytes, _ := json.Marshal(ReplenishmentRequestToUpdate)
+	err = stub.PutState(requestNo, ReplenishmentRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateReplenishmentRequestSecondStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	ReplenishmentRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if ReplenishmentRequestAsBytes == nil {
+		return shim.Error("ReplenishmentRequest does not exist")
+	}
+
+	ReplenishmentRequestToUpdate := ReplenishmentRequest{}
+	err = json.Unmarshal(ReplenishmentRequestAsBytes, &ReplenishmentRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	ReplenishmentRequestToUpdate.SecondStatus = newStatus //change the status
+
+	ReplenishmentRequestJSONasBytes, _ := json.Marshal(ReplenishmentRequestToUpdate)
+	err = stub.PutState(requestNo, ReplenishmentRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateReplenishmentRequestItemStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	ReplenishmentRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if ReplenishmentRequestAsBytes == nil {
+		return shim.Error("ReplenishmentRequest does not exist")
+	}
+
+	ReplenishmentRequestToUpdate := ReplenishmentRequest{}
+	err = json.Unmarshal(ReplenishmentRequestAsBytes, &ReplenishmentRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	ReplenishmentRequestToUpdate.RItem.RStatus = newStatus //change the status
+
+	ReplenishmentRequestJSONasBytes, _ := json.Marshal(ReplenishmentRequestToUpdate)
+	err = stub.PutState(requestNo, ReplenishmentRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateReplenishmentRequestItemSecondStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	requestNo := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", requestNo, newStatus)
+
+	ReplenishmentRequestAsBytes, err := stub.GetState(requestNo)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if ReplenishmentRequestAsBytes == nil {
+		return shim.Error("ReplenishmentRequest does not exist")
+	}
+
+	ReplenishmentRequestToUpdate := ReplenishmentRequest{}
+	err = json.Unmarshal(ReplenishmentRequestAsBytes, &ReplenishmentRequestToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	ReplenishmentRequestToUpdate.RItem.RSecondStatus = newStatus //change the status
+
+	ReplenishmentRequestJSONasBytes, _ := json.Marshal(ReplenishmentRequestToUpdate)
+	err = stub.PutState(requestNo, ReplenishmentRequestJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateFunctionalUnitStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	uuid := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", uuid, newStatus)
+
+	FunctionalUnitAsBytes, err := stub.GetState(uuid)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if FunctionalUnitAsBytes == nil {
+		return shim.Error("FunctionalUnit does not exist")
+	}
+
+	FunctionalUnitToUpdate := FunctionalUnit{}
+	err = json.Unmarshal(FunctionalUnitAsBytes, &FunctionalUnitToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	FunctionalUnitToUpdate.Status = newStatus //change the status
+
+	FunctionalUnitJSONasBytes, _ := json.Marshal(FunctionalUnitToUpdate)
+	err = stub.PutState(uuid, FunctionalUnitJSONasBytes) //rewrite the marble
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	fmt.Println("- end  (success)")
+	return shim.Success(nil)
+}
+
+func (t *SmartContract) updateReceiveItemStatus(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+
+	if len(args) < 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	itemId := args[0]
+	newStatus := args[1]
+	fmt.Println("- start  ", itemId, newStatus)
+
+	ReceiveItemAsBytes, err := stub.GetState(itemId)
+	if err != nil {
+		return shim.Error("Failed to get status:" + err.Error())
+	} else if ReceiveItemAsBytes == nil {
+		return shim.Error("ReceiveItem does not exist")
+	}
+
+	ReceiveItemToUpdate := ReceiveItem{}
+	err = json.Unmarshal(ReceiveItemAsBytes, &ReceiveItemToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	ReceiveItemToUpdate.Status = newStatus //change the status
+
+	ReceiveItemJSONasBytes, _ := json.Marshal(ReceiveItemToUpdate)
+	err = stub.PutState(itemId, ReceiveItemJSONasBytes) //rewrite the marble
 	if err != nil {
 		return shim.Error(err.Error())
 	}

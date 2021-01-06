@@ -101,7 +101,7 @@ app.post('/api/addPurchaseRequest', async function (req, res) {
       req.body.name,
       req.body.description,
       req.body.itemCode,
-      req.body.status,
+      req.body.istatus,
       req.body.secondStatus,
       req.body.requesterName,
       req.body.rejectionReason,
@@ -357,6 +357,258 @@ console.log(req.body);
   if (response) {
     if(response.status == 200)
     res.status(response.status).send({ message: "The ReceiveItem with ID: "+req.body.itemId+ " is stored in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseOrderStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseOrderStatus',
+    args: [
+
+      req.body.purchaseOrderNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The purchaseOrderNo with ID: "+req.body.purchaseOrderNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseOrderCommitteeStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseOrderCommitteeStatus',
+    args: [
+
+      req.body.purchaseOrderNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The purchaseOrderNo with ID: "+req.body.purchaseOrderNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseRequestStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseRequestStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The PurchaseRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseRequestCommitteeStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseRequestCommitteeStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The PurchaseRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseRequestItemStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseRequestItemStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The PurchaseRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updatePurchaseRequestItemSecondStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updatePurchaseRequestItemSecondStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The PurchaseRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateReplenishmentRequestStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateReplenishmentRequestStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The ReplenishmentRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateReplenishmentRequestSecondStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateReplenishmentRequestSecondStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The ReplenishmentRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateReplenishmentRequestItemStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateReplenishmentRequestItemStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The ReplenishmentRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateReplenishmentRequestItemSecondStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateReplenishmentRequestItemSecondStatus',
+    args: [
+
+      req.body.requestNo,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The ReplenishmentRequest with ID: "+req.body.requestNo+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateFunctionalUnitStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateFunctionalUnitStatus',
+    args: [
+
+      req.body.uuid,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The FunctionalUnit with ID: "+req.body.uuid+ " is updated in the blockchain with " +response.message  });
+    else
+    res.status(response.status).send({ message: response.message});
+  }
+});
+
+app.post('/api/updateReceiveItemStatus', async function (req, res) {
+
+  var request = {
+    chaincodeId: 'khmc',
+    fcn: 'updateReceiveItemStatus',
+    args: [
+
+      req.body.itemId,
+      req.body.newStatus
+    ]
+  };
+  console.log(req.body);
+  let response = await invoke.invokeCreate(request);
+  if (response) {
+    if(response.status == 200)
+    res.status(response.status).send({ message: "The ReceiveItem with ID: "+req.body.itemId+ " is updated in the blockchain with " +response.message  });
     else
     res.status(response.status).send({ message: response.message});
   }
