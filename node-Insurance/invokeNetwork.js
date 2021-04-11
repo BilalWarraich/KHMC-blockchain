@@ -14,8 +14,8 @@ var util = require('util');
 var os = require('os');
 var fs = require('fs');
 var blocklistener = false;
-let peerCert = fs.readFileSync('../../fabric/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem');
-let ordererCert = fs.readFileSync('../../fabric/test-network/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem');
+let peerCert = fs.readFileSync('../fabric/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem');
+let ordererCert = fs.readFileSync('../fabric/test-network/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem');
 module.exports = {
 
   invokeCreate: async function (request) {
@@ -58,7 +58,7 @@ module.exports = {
         fabric_client.setCryptoSuite(crypto_suite);
       
         // get the enrolled user from persistence, this user will sign all requests
-        return fabric_client.getUserContext('insurance', true);
+        return fabric_client.getUserContext('insurance1', true);
       });
 
       if (user_from_store && user_from_store.isEnrolled()) {
@@ -107,10 +107,10 @@ module.exports = {
         }
 
       } else {
-        console.log(proposalResponses[0].response.message.toString())
+        console.log("AAAAAAAAAA",proposalResponses.toString())
         return {
           status: 500,
-          message: proposalResponses[0].response.message.toString()
+          message: proposalResponses[0].toString()
         }
       }
     }

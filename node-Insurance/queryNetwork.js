@@ -17,8 +17,8 @@ var Response;
 //make sure we have the profiles we need
 var networkConfig = path.join(__dirname, './config/network-profile.json')
 var clientConfig = path.join(__dirname, './config/client-profile.json');
-let peerCert = fs.readFileSync('../../fabric/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem');
-let ordererCert = fs.readFileSync('../../fabric/test-network/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem');
+let peerCert = fs.readFileSync('../fabric/test-network/organizations/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem');
+let ordererCert = fs.readFileSync('../fabric/test-network/organizations/ordererOrganizations/example.com/msp/tlscacerts/tlsca.example.com-cert.pem');
 
 module.exports = {
 
@@ -53,7 +53,7 @@ module.exports = {
         fabric_client.setCryptoSuite(crypto_suite);
 
         // get the enrolled user from persistence, this user will sign all requests
-        return fabric_client.getUserContext('insurance', true);
+        return fabric_client.getUserContext('insurance1', true);
       });
 
       if (user_from_store && user_from_store.isEnrolled()) {
