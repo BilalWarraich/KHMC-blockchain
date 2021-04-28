@@ -32,7 +32,7 @@ const PurchaseRequestSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'ReplenishmentRequest' 
 },
-  item: [{
+  item: {
     itemId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Item',
@@ -61,7 +61,7 @@ const PurchaseRequestSchema = new mongoose.Schema({
     secondStatus: {
       type: String
     },
-  }],
+  },
   requesterName: {
     type: String,
   },
