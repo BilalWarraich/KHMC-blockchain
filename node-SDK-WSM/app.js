@@ -277,7 +277,7 @@ app.post('/api/addFuInventory', async function (req, res) {
       req.body.minimumLevel,
       req.body.createdAt,
       req.body.updatedAt,
-      JSON.stringify(req.body.batchArray),
+      JSON.stringify(req.body.batchArray)
 
 
     ]

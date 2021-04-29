@@ -1701,9 +1701,6 @@ func (t *SmartContract) addFuInventory(stub shim.ChaincodeStubInterface, args []
 	if len(args[8]) <= 0 {
 		return shim.Error("9th Argument Must be a Non-Empty String")
 	}
-	if len(args[9]) <= 0 {
-		return shim.Error("10th Argument Must be a Non-Empty String")
-	}
 	// if len(args[10]) <= 0 {
 	// 	return shim.Error("11th Argument Must be a Non-Empty String")
 	// }
